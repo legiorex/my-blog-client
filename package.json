@@ -16,6 +16,18 @@
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.7.1",
+    "typescript-plugin-css-modules": "^3.4.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
