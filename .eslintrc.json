@@ -1,90 +1,71 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/recommended",
+    "airbnb",
+    "plugin:react/jsx-runtime",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:import/recommended",
-        "airbnb",
-        "plugin:react/jsx-runtime",
-        "prettier"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "import", "prettier"],
+  "globals": {
+    "React": "readonly"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "import/no-unresolved": [0],
+    "arrow-body-style": "off",
+    "import/extensions": [0],
+    "import/prefer-default-export": [0],
+    "no-unused-vars": [0],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "no-shadow": [0],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": ["react", "@typescript-eslint", "react-hooks", "import", "prettier"],
-    "globals": {
-        "React": "readonly"
-    },
-    "settings": {
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-                "js": "never",
-                "jsx": "never",
-                "ts": "never",
-                "tsx": "never"
-            }
-        ]
-    },
-    "rules": {
-        "import/no-unresolved": [2, { "caseSensitive": false }],
-        "arrow-body-style": ["error", "as-needed", { "requireReturnForObjectLiteral": true }],
-        "import/prefer-default-export": [0],
-        "no-unused-vars": [0],
+    "@typescript-eslint/no-unused-vars": 1,
 
-        "no-unused-expressions": ["error", { "allowTernary": true }],
-        "no-shadow": [0],
-        "no-param-reassign": [
-            "error",
-            {
-                "props": true,
-                "ignorePropertyModificationsFor": ["state"]
-            }
-        ],
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "@typescript-eslint/ban-ts-ignore": "off",
 
-        "@typescript-eslint/no-unused-vars": [
-            "warn",
-            {
-                "vars": "all",
-                "args": "after-used",
-                "ignoreRestSiblings": false,
-                "argsIgnorePattern": "^_"
-            }
-        ],
-
-        "@typescript-eslint/ban-ts-comment": "off",
-        "@typescript-eslint/no-shadow": ["error"],
-        "@typescript-eslint/ban-ts-ignore": "off",
-
-        // --- react rules ---
-        "react/prop-types": [0],
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", "ts", "tsx"] }],
-        "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
-        "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
-        "react/button-has-type": [0],
-        "react/require-default-props": [0],
-        "jsx-a11y/click-events-have-key-events": "off",
-        "jsx-a11y/no-static-element-interactions": "off",
-        "react/jsx-props-no-spreading": "off",
-        "jsx-a11y/label-has-associated-control": [
-            2,
-            {
-                "required": {
-                    "some": ["nesting", "id"]
-                }
-            }
-        ],
-        "react/destructuring-assignment": "off"
-    }
+    // --- react rules ---
+    "react/prop-types": [0],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", "ts", "tsx"] }],
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+    "react/jsx-curly-brace-presence": ["error", { "props": "never", "children": "never" }],
+    "react/button-has-type": [0],
+    "react/require-default-props": [0],
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
+    ],
+    "react/destructuring-assignment": "off"
+  }
 }
