@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import { Link } from 'react-router-dom'
 
 import styles from './Header.module.scss'
 
@@ -15,26 +16,26 @@ const Header = () => {
       <Container maxWidth="lg">
         <div className={styles.inner}>
           <a className={styles.logo} href="/">
-            <div>ARCHAKOV BLOG</div>
+            <div>BLOG</div>
           </a>
           <div className={styles.buttons}>
             {isAuth ? (
               <>
-                <a href="/posts/create">
+                <Link to="/posts/create">
                   <Button variant="contained">Написать статью</Button>
-                </a>
+                </Link>
                 <Button onClick={onClickLogout} variant="contained" color="error">
                   Выйти
                 </Button>
               </>
             ) : (
               <>
-                <a href="/login">
+                <Link to="/sing-in">
                   <Button variant="outlined">Войти</Button>
-                </a>
-                <a href="/register">
+                </Link>
+                <Link to="/sing-up">
                   <Button variant="contained">Создать аккаунт</Button>
-                </a>
+                </Link>
               </>
             )}
           </div>
