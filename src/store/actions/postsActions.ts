@@ -6,9 +6,9 @@ import { PostType } from 'types'
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (_, thunkAPI) => {
   try {
-    const response = await api.get<PostType[]>(path.posts)
+    const { data } = await api.get<PostType[]>(path.posts)
 
-    return response.data
+    return data
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return thunkAPI.rejectWithValue((error.response.data as Error).message)

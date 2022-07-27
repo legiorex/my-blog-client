@@ -3,7 +3,6 @@ import CommentsBlock from '@components/CommentsBlock/CommentsBlock'
 import Post from '@components/Post/Post'
 import api from 'api'
 import { path } from 'config'
-import { useAppSelector } from 'hooks'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { PostType } from 'types'
@@ -18,12 +17,7 @@ const PostPage = () => {
   const [post, setPost] = useState<PostType | undefined>(undefined)
   const [isLoading, setLoading] = useState(false)
 
-  const { posts } = useAppSelector((state) => state.posts)
-
   useEffect(() => {
-    if (posts.length) {
-      setPost(posts.find((item: PostType) => item._id === id))
-    }
     setLoading(true)
     api
       .get<PostType>(`${path.posts}/${id}`)
@@ -33,7 +27,7 @@ const PostPage = () => {
       .finally(() => {
         setLoading(false)
       })
-  }, [id, posts])
+  }, [id])
 
   if (isLoading || !post) {
     return <PostSkeleton />
