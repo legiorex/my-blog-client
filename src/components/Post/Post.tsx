@@ -6,56 +6,35 @@ import {
 } from '@mui/icons-material'
 import IconButton from '@mui/material/IconButton'
 import clsx from 'clsx'
+import dayjs from 'dayjs'
 import { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { PostType } from 'types'
 
-import PostSkeleton from '../PostSkeleton/PostSkeleton'
 import UserInfo from '../UserInfo/UserInfo'
 import styles from './Post.module.scss'
 
 type Props = {
-  id: string
-  title: string
-  createdAt: string
-  imageUrl: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any
-  viewsCount: number
-  commentsCount: number
-  tags: string[]
+  post: PostType
   children?: ReactNode
   isFullPost: boolean
-  isLoading: boolean
   isEditable: boolean
 }
 
-const Post: FC<Props> = ({
-  id,
-  title,
-  createdAt,
-  imageUrl,
-  user,
-  viewsCount,
-  commentsCount,
-  tags,
-  children,
-  isFullPost,
-  isLoading,
-  isEditable,
-}) => {
-  if (isLoading) {
-    return <PostSkeleton />
-  }
+const IMAGE_URL =
+  'https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png'
 
+const Post: FC<Props> = ({ post, children, isFullPost, isEditable }) => {
   const onClickRemove = () => {
     console.log('first')
   }
+  const { title, user, viewsCount, createdAt, _id: postId } = post
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
+          <Link to={`/posts/${postId}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
@@ -65,21 +44,26 @@ const Post: FC<Props> = ({
           </IconButton>
         </div>
       )}
-      {imageUrl && (
-        <img className={clsx(styles.image, { [styles.imageFull]: isFullPost })} src={imageUrl} alt={title} />
-      )}
+
+      <img
+        className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
+        src={post.imageUrl ? post.imageUrl : IMAGE_URL}
+        alt={title}
+      />
+
       <div className={styles.wrapper}>
-        <UserInfo {...user} additionalText={createdAt} />
+        <UserInfo {...user} additionalText={dayjs(createdAt).format('D MMM YYYY')} />
         <div className={styles.indention}>
           <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/posts/${postId}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
-            {tags.map((name) => (
-              <li key={name}>
-                <Link to={`/tag/${name}`}>#{name}</Link>
-              </li>
-            ))}
+            {post.tags &&
+              post.tags.map((name) => (
+                <li key={name}>
+                  <Link to={`/tag/${name}`}>#{name}</Link>
+                </li>
+              ))}
           </ul>
           {children && <div className={styles.content}>{children}</div>}
           <ul className={styles.postDetails}>
@@ -89,7 +73,7 @@ const Post: FC<Props> = ({
             </li>
             <li>
               <CommentIcon />
-              <span>{commentsCount}</span>
+              <span>3</span>
             </li>
           </ul>
         </div>

@@ -1,32 +1,48 @@
 import AddComment from '@components/AddComment/AddComment'
 import CommentsBlock from '@components/CommentsBlock/CommentsBlock'
 import Post from '@components/Post/Post'
+import api from 'api'
+import { path } from 'config'
+import { useAppSelector } from 'hooks'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { PostType } from 'types'
+
+import PostSkeleton from 'components/PostSkeleton/PostSkeleton'
+
+// TODO render error
 
 const PostPage = () => {
+  const { id } = useParams()
+
+  const [post, setPost] = useState<PostType | undefined>(undefined)
+  const [isLoading, setLoading] = useState(false)
+
+  const { posts } = useAppSelector((state) => state.posts)
+
+  useEffect(() => {
+    if (posts.length) {
+      setPost(posts.find((item: PostType) => item._id === id))
+    }
+    setLoading(true)
+    api
+      .get<PostType>(`${path.posts}/${id}`)
+      .then((resolve) => {
+        setPost(resolve.data)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [id, posts])
+
+  if (isLoading || !post) {
+    return <PostSkeleton />
+  }
+
   return (
     <>
-      <Post
-        id="1"
-        title="Roast the code #1 | Rock Paper Scissors"
-        imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-        user={{
-          avatarUrl:
-            'https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png',
-          fullName: 'Keff',
-        }}
-        createdAt="12 июня 2022 г."
-        viewsCount={150}
-        commentsCount={3}
-        tags={['react', 'fun', 'typescript']}
-        isFullPost
-        isLoading={false}
-        isEditable={false}
-      >
-        <p>
-          Hey there! 👋 I&apos;m starting a new series called &quot;Roast the Code&quot;, where I will share some code,
-          and let YOU roast and improve it. There&apos;s not much more to it, just be polite and constructive, this is
-          an exercise so we can all learn together. Now then, head over to the repo and roast as hard as you can!!
-        </p>
+      <Post post={post} isFullPost isEditable={false}>
+        <p>{post.text}</p>
       </Post>
       <CommentsBlock
         items={[

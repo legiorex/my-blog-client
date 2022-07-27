@@ -11,7 +11,7 @@ import SideBlock from '../SideBlock/SideBlock'
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  items: any
+  items: string[]
   isLoading: boolean
 }
 
