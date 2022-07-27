@@ -15,3 +15,5 @@ export type PostType = {
   user: UserType
   createdAt: Date
 }
+
+export type UserSingIn = Pick<UserType, 'email'> & { password: string }

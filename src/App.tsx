@@ -5,6 +5,7 @@ import Home from '@pages/Home/Home'
 import PostPage from '@pages/PostPage/PostPage'
 import SingIn from '@pages/SingIn/SingIn'
 import SingUp from '@pages/SingUp/SingUp'
+import { path } from 'config'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 const App = () => (
@@ -13,11 +14,11 @@ const App = () => (
     <Container maxWidth="lg">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sing-up" element={<SingUp />} />
-        <Route path="/sing-in" element={<SingIn />} />
+        {/* <Route path={path.signUp} element={<SingUp />} />
+        <Route path={path.signIn} element={<SingIn />} />
         <Route path="/posts/create" element={<CreatePost />} />
         <Route path="/posts/:id" element={<PostPage />} />
-        <Route path="*" element={<Navigate replace to="/" />} />
+        <Route path="*" element={<Navigate replace to="/" />} /> */}
       </Routes>
     </Container>
   </>

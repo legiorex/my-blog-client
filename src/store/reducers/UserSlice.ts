@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { UserType } from 'types'
 
-import { fetchSingUp } from '../actions'
+import { fetchSingIn, fetchSingUp } from '../actions'
 
 type UserState = {
   user: UserType | null
@@ -18,7 +18,11 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null
+    },
+  },
   extraReducers: {
     [fetchSingUp.pending.type]: (state) => {
       state.isLoading = true
@@ -28,6 +32,17 @@ export const userSlice = createSlice({
       state.user = action.payload
     },
     [fetchSingUp.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+    [fetchSingIn.pending.type]: (state) => {
+      state.isLoading = true
+    },
+    [fetchSingIn.fulfilled.type]: (state, action: PayloadAction<UserType>) => {
+      state.isLoading = false
+      state.user = action.payload
+    },
+    [fetchSingIn.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
     },

@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import { path } from 'config'
 import { Link } from 'react-router-dom'
 
 import styles from './Header.module.scss'
@@ -30,10 +31,10 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/sing-in">
+                <Link to={path.signIn}>
                   <Button variant="outlined">Войти</Button>
                 </Link>
-                <Link to="/sing-up">
+                <Link to={path.signUp}>
                   <Button variant="contained">Создать аккаунт</Button>
                 </Link>
               </>

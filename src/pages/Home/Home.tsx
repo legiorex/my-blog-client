@@ -17,10 +17,10 @@ const Home = () => {
   const { posts, isLoading } = useAppSelector((state) => state.posts)
 
   useEffect(() => {
-    if (!posts || !posts.length) {
-      dispatch(fetchPosts())
-    }
-  }, [dispatch, posts])
+    // if (!posts || !posts.length) {
+    dispatch(fetchPosts())
+    // }
+  }, [dispatch])
 
   return (
     <>
