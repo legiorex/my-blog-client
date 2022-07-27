@@ -1,10 +1,19 @@
-// import axios from 'axios'
-// import { User } from 'types'
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import api from 'api'
+import axios from 'axios'
+import { path } from 'config'
+import { UserType } from 'types'
 
-// import { AppDispatch } from '../store'
+export const fetchSingUp = createAsyncThunk('user/fetchSingUp', async (params, thunkAPI) => {
+  try {
+    const { data } = await api.post<UserType>(path.signUp, params)
 
-// export const fetchUser = () => async (dispatch: AppDispatch) => {
-//   try {
-//     const response = await axios.get('https://jsonplaceholder.typicode.com/users')
-//   } catch (error) {}
-// }
+    return data
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      return thunkAPI.rejectWithValue((error.response.data as Error).message)
+    }
+
+    return thunkAPI.rejectWithValue('Не удалось зарегистрироваться')
+  }
+})

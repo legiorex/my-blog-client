@@ -14,11 +14,13 @@ import PostSkeleton from 'components/PostSkeleton/PostSkeleton'
 const Home = () => {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchPosts())
-  }, [dispatch])
-
   const { posts, isLoading } = useAppSelector((state) => state.posts)
+
+  useEffect(() => {
+    if (!posts || !posts.length) {
+      dispatch(fetchPosts())
+    }
+  }, [dispatch, posts])
 
   return (
     <>
