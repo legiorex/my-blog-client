@@ -13,6 +13,7 @@ const Home = () => {
   const dispatch = useAppDispatch()
 
   const { posts, isLoading } = useAppSelector((state) => state.posts)
+  const { user } = useAppSelector((state) => state.user)
 
   useEffect(() => {
     if (!posts || !posts.length) {
@@ -32,7 +33,9 @@ const Home = () => {
           {isLoading && [...Array(5)].map((_, index: number) => <PostSkeleton key={index} />)}
 
           {!isLoading &&
-            posts.map((post: PostType) => <Post key={post._id} post={post} isEditable isFullPost={false} />)}
+            posts.map((post: PostType) => (
+              <Post key={post._id} post={post} isEditable={user?._id === post.user._id} isFullPost={false} />
+            ))}
         </Grid>
       </Grid>
     </>
