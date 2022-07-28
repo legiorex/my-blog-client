@@ -38,7 +38,7 @@ const Home = () => {
         </Grid>
         <Grid xs={4} item>
           {/* <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} /> */}
-          <CommentsBlock
+          {/* <CommentsBlock
             items={[
               {
                 user: {
@@ -56,7 +56,7 @@ const Home = () => {
               },
             ]}
             isLoading={false}
-          />
+          /> */}
         </Grid>
       </Grid>
     </>

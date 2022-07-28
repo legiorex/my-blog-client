@@ -36,15 +36,10 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "no-unused-expressions": ["error", { "allowTernary": true }],
     "no-shadow": [0],
-    "no-param-reassign": [
-      "error",
-      {
-        "props": true,
-        "ignorePropertyModificationsFor": ["state"]
-      }
-    ],
-    "@typescript-eslint/no-unused-vars": 1,
+    "no-param-reassign": "off",
 
+    // --- typescript rules ---
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-shadow": ["error"],
     "@typescript-eslint/ban-ts-ignore": "off",

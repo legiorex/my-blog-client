@@ -1,4 +1,4 @@
 import { fetchPosts } from './postsActions'
-import { fetchSingUp } from './userActions'
+import { fetchSingIn, fetchSingUp, fetchUser } from './userActions'
 
-export { fetchPosts, fetchSingUp }
+export { fetchPosts, fetchSingUp, fetchSingIn, fetchUser }

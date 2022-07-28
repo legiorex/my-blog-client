@@ -1,14 +1,23 @@
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import { path } from 'config'
+import { useAppDispatch, useIsAuth } from 'hooks'
 import { Link } from 'react-router-dom'
+import { userSlice } from 'store/reducers/UserSlice'
+import { removeToken } from 'utils'
 
 import styles from './Header.module.scss'
 
 const Header = () => {
-  const isAuth = false
+  const isAuth = useIsAuth()
+
+  const dispatch = useAppDispatch()
+
+  const { logout } = userSlice.actions
 
   const onClickLogout = () => {
-    console.log('first')
+    removeToken()
+    dispatch(logout())
   }
 
   return (
@@ -30,10 +39,10 @@ const Header = () => {
               </>
             ) : (
               <>
-                <Link to="/sing-in">
+                <Link to={path.signIn}>
                   <Button variant="outlined">Войти</Button>
                 </Link>
-                <Link to="/sing-up">
+                <Link to={path.signUp}>
                   <Button variant="contained">Создать аккаунт</Button>
                 </Link>
               </>
