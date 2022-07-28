@@ -18,3 +18,6 @@ export type PostType = {
 
 export type UserSingInRequest = Pick<UserType, 'email'> & { password: string }
 export type UserSingInResponse = UserType & { token: string }
+
+export type UserSingUpRequest = Omit<UserType, '_id'> & { password: string }
+export type UserSingUpResponse = UserSingInResponse
