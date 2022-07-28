@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { UserType } from 'types'
 
-import { fetchSingIn, fetchSingUp } from '../actions'
+import { fetchSingIn, fetchSingUp, fetchUser } from '../actions'
 
 type UserState = {
   user: UserType | null
@@ -43,6 +43,17 @@ export const userSlice = createSlice({
       state.user = action.payload
     },
     [fetchSingIn.rejected.type]: (state, action: PayloadAction<string>) => {
+      state.isLoading = false
+      state.error = action.payload
+    },
+    [fetchUser.pending.type]: (state) => {
+      state.isLoading = true
+    },
+    [fetchUser.fulfilled.type]: (state, action: PayloadAction<UserType>) => {
+      state.isLoading = false
+      state.user = action.payload
+    },
+    [fetchUser.rejected.type]: (state, action: PayloadAction<string>) => {
       state.isLoading = false
       state.error = action.payload
     },

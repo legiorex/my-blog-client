@@ -17,10 +17,10 @@ const Home = () => {
   const { posts, isLoading } = useAppSelector((state) => state.posts)
 
   useEffect(() => {
-    // if (!posts || !posts.length) {
-    dispatch(fetchPosts())
-    // }
-  }, [dispatch])
+    if (!posts || !posts.length) {
+      dispatch(fetchPosts())
+    }
+  }, [dispatch, posts])
 
   return (
     <>
@@ -38,7 +38,7 @@ const Home = () => {
         </Grid>
         <Grid xs={4} item>
           {/* <TagsBlock items={['react', 'typescript', 'заметки']} isLoading={false} /> */}
-          <CommentsBlock
+          {/* <CommentsBlock
             items={[
               {
                 user: {
@@ -56,7 +56,7 @@ const Home = () => {
               },
             ]}
             isLoading={false}
-          />
+          /> */}
         </Grid>
       </Grid>
     </>

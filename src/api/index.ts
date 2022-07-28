@@ -1,9 +1,18 @@
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { baseURL } from 'config'
+import { getToken } from 'utils'
 
 const instance = axios.create({
   baseURL,
 })
-export type ErrorApi = AxiosError
+
+instance.interceptors.request.use((config: AxiosRequestConfig) => {
+  if (!config.headers) {
+    config.headers = {}
+  }
+
+  config.headers.Authorization = getToken() || ''
+  return config
+})
 
 export default instance

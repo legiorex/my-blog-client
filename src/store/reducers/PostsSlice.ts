@@ -24,7 +24,6 @@ export const postsSlice = createSlice({
       state.posts = action.payload
     },
     [fetchPosts.pending.type]: (state) => {
-      state.posts = []
       state.isLoading = true
     },
     [fetchPosts.rejected.type]: (state, action: PayloadAction<string>) => {

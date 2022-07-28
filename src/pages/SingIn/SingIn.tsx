@@ -1,25 +1,25 @@
 import LoadingButton from '@mui/lab/LoadingButton'
-import Button from '@mui/material/Button'
 import Paper from '@mui/material/Paper'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useAppDispatch, useAppSelector } from 'hooks'
+import { useAppDispatch, useAppSelector, useIsAuth } from 'hooks'
 import { useForm } from 'react-hook-form'
+import { Navigate } from 'react-router-dom'
 import { fetchSingIn } from 'store/actions'
-import { UserSingIn } from 'types'
+import { UserSingInRequest } from 'types'
 
 import styles from './SingIn.module.scss'
 
 const SingIn = () => {
   const dispatch = useAppDispatch()
-  const { user, isLoading } = useAppSelector((state) => state.user)
+  const { isLoading } = useAppSelector((state) => state.user)
+  const isAuth = useIsAuth()
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
-  } = useForm<UserSingIn>({
+  } = useForm<UserSingInRequest>({
     defaultValues: {
       email: '',
       password: '',
@@ -27,9 +27,12 @@ const SingIn = () => {
     mode: 'onChange',
   })
 
-  const onSubmit = (values: UserSingIn) => {
-    console.log('~ ~ file: SingUp.tsx ~ line 29 ~ SingUp ~ values', values)
+  const onSubmit = (values: UserSingInRequest) => {
     dispatch(fetchSingIn(values))
+  }
+
+  if (isAuth) {
+    return <Navigate to="/" replace />
   }
 
   return (
