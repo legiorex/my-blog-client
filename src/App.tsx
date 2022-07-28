@@ -30,7 +30,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path={path.signUp} element={<SingUp />} />
           <Route path={path.signIn} element={<SingIn />} />
-          <Route path="/posts/create" element={<CreatePost />} />
+          <Route path={path.postsCreate} element={<CreatePost />} />
           <Route path="/posts/:id" element={<PostPage />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
