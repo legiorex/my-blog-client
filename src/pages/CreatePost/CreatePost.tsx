@@ -14,8 +14,6 @@ import { PostType } from 'types'
 import styles from './CreatePost.module.scss'
 
 const CreatePost = () => {
-  const [isLoading, setLoading] = useState(false)
-
   const navigate = useNavigate()
 
   const [post, setPost] = useState<Pick<PostType, 'title' | 'text' | 'imageUrl' | 'tags'>>({

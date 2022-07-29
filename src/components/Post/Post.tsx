@@ -5,10 +5,14 @@ import {
   RemoveRedEyeOutlined as EyeIcon,
 } from '@mui/icons-material'
 import IconButton from '@mui/material/IconButton'
+import api from 'api'
 import clsx from 'clsx'
+import { path } from 'config'
 import dayjs from 'dayjs'
+import { useAppDispatch } from 'hooks'
 import { FC, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { fetchPosts } from 'store/actions'
 import { PostType } from 'types'
 
 import UserInfo from '../UserInfo/UserInfo'
@@ -25,11 +29,18 @@ const IMAGE_URL =
   'https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png'
 
 const Post: FC<Props> = ({ post, children, isFullPost, isEditable }) => {
-  const onClickRemove = () => {
-    console.log('first')
-  }
+  const dispatch = useAppDispatch()
   const { title, user, viewsCount, createdAt, _id: postId } = post
-
+  const onClickRemove = () => {
+    api
+      .delete(`${path.posts}/${postId}`)
+      .then(() => {
+        dispatch(fetchPosts())
+      })
+      .catch((error) => {
+        console.log('~ ~ file: Post.tsx ~ line 32 ~ onClickRemove ~ error', error)
+      })
+  }
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
