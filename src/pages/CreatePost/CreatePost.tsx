@@ -84,7 +84,7 @@ const CreatePost = () => {
 
       const { data } = await api.post(path.uploads, formData)
 
-      setPost((prev) => ({ ...prev, imageUrl: `http://localhost:5000${data.url}` }))
+      setPost((prev) => ({ ...prev, imageUrl: `${process.env.REACT_APP_BASE_URL}${data.url}` }))
     } catch (error) {
       console.log('~ ~ file: CreatePost.tsx ~ line 61 ~ handleChangeFile ~ error', error)
     }
