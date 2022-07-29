@@ -4,6 +4,7 @@ import Post from '@components/Post/Post'
 import api from 'api'
 import { path } from 'config'
 import { useEffect, useState } from 'react'
+import ReactMarkdown from 'react-markdown'
 import { useParams } from 'react-router-dom'
 import { PostType } from 'types'
 
@@ -36,7 +37,7 @@ const PostPage = () => {
   return (
     <>
       <Post post={post} isFullPost isEditable={false}>
-        <p>{post.text}</p>
+        <ReactMarkdown>{post.text}</ReactMarkdown>
       </Post>
       <CommentsBlock
         items={[
