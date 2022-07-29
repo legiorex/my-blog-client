@@ -31,7 +31,8 @@ const App = () => {
           <Route path={path.signUp} element={<SingUp />} />
           <Route path={path.signIn} element={<SingIn />} />
           <Route path={path.postsCreate} element={<CreatePost />} />
-          <Route path="/posts/:id" element={<PostPage />} />
+          <Route path={`${path.posts}/:id`} element={<PostPage />} />
+          <Route path={`${path.postsEdit}/:id`} element={<CreatePost />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Container>

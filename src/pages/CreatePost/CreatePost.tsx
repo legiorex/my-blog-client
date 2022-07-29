@@ -6,8 +6,8 @@ import { path } from 'config'
 import { Options } from 'easymde'
 import 'easymde/dist/easymde.min.css'
 import { useIsAuth } from 'hooks'
-import { ChangeEvent, useCallback, useMemo, useRef, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import SimpleMDE from 'react-simplemde-editor'
 import { PostType } from 'types'
 
@@ -15,6 +15,9 @@ import styles from './CreatePost.module.scss'
 
 const CreatePost = () => {
   const navigate = useNavigate()
+  const params = useParams()
+
+  const editPostId = params.id
 
   const [post, setPost] = useState<Pick<PostType, 'title' | 'text' | 'imageUrl' | 'tags'>>({
     title: '',
@@ -22,6 +25,24 @@ const CreatePost = () => {
     imageUrl: '',
     tags: [],
   })
+
+  useEffect(() => {
+    if (editPostId) {
+      api
+        .get<PostType>(`${path.posts}/${editPostId}`)
+        .then(({ data }) => {
+          setPost({
+            title: data.title,
+            text: data.text,
+            imageUrl: data.imageUrl || '',
+            tags: data.tags || [],
+          })
+        })
+        .catch((error) => {
+          console.log('~ ~ file: CreatePost.tsx ~ line 32 ~ api.post ~ error', error)
+        })
+    }
+  }, [editPostId])
 
   const inputImageRef = useRef<HTMLInputElement>(null)
 
@@ -63,7 +84,7 @@ const CreatePost = () => {
 
       const { data } = await api.post(path.uploads, formData)
 
-      setPost((prev) => ({ ...prev, imageUrl: data.url }))
+      setPost((prev) => ({ ...prev, imageUrl: `http://localhost:5000${data.url}` }))
     } catch (error) {
       console.log('~ ~ file: CreatePost.tsx ~ line 61 ~ handleChangeFile ~ error', error)
     }
@@ -83,13 +104,19 @@ const CreatePost = () => {
     setPost((prev) => ({ ...prev, tags }))
   }
 
-  const onSubmit = async () => {
-    if (!post.imageUrl) {
-      delete post.imageUrl
-    } else {
-      post.imageUrl = `http://localhost:5000${post.imageUrl}`
-    }
+  const updatePost = () => {
+    api
+      .patch<PostType>(`${path.posts}/${editPostId}`, post)
+      .then((response) => {
+        const id = response.data._id
+        navigate(`${path.posts}/${id}`)
+      })
+      .catch((error) => {
+        console.log('~ ~ updatePost', error)
+      })
+  }
 
+  const createPost = () => {
     api
       .post<PostType>(path.posts, post)
       .then((response) => {
@@ -97,8 +124,20 @@ const CreatePost = () => {
         navigate(`${path.posts}/${id}`)
       })
       .catch((error) => {
-        console.log('~ ~ file: CreatePost.tsx ~ line 94 ~ api.post<PostType> ~ error', error)
+        console.log('~ ~ CreatePost', error)
       })
+  }
+
+  const onSubmit = () => {
+    if (!post.imageUrl) {
+      delete post.imageUrl
+    }
+
+    if (editPostId) {
+      updatePost()
+    } else {
+      createPost()
+    }
   }
 
   if (!isAuth) {
@@ -116,7 +155,7 @@ const CreatePost = () => {
           <Button variant="contained" color="error" onClick={onClickRemoveImage}>
             Удалить
           </Button>
-          <img className={styles.image} src={`http://localhost:5000${post.imageUrl}`} alt="Uploaded" />
+          <img className={styles.image} src={post.imageUrl} alt="Uploaded" />
         </>
       )}
 
@@ -141,7 +180,7 @@ const CreatePost = () => {
       <SimpleMDE className={styles.editor} value={post.text} onChange={onChangeText} options={options} />
       <div className={styles.buttons}>
         <Button onClick={onSubmit} size="large" variant="contained">
-          Опубликовать
+          {editPostId ? 'Обновить' : 'Опубликовать'}
         </Button>
         <Link to="/">
           <Button size="large">Отмена</Button>

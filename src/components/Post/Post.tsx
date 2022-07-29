@@ -45,7 +45,7 @@ const Post: FC<Props> = ({ post, children, isFullPost, isEditable }) => {
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <Link to={`/posts/${postId}/edit`}>
+          <Link to={`${path.postsEdit}/${postId}`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
