@@ -16,6 +16,8 @@ export type PostType = {
   createdAt: Date
 }
 
+export type RemoveImage = { imageUrl: string }
+
 export type UserSingInRequest = Pick<UserType, 'email'> & { password: string }
 export type UserSingInResponse = UserType & { token: string }
 
