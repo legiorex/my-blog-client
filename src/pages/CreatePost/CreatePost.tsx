@@ -9,7 +9,7 @@ import { useIsAuth } from 'hooks'
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import SimpleMDE from 'react-simplemde-editor'
-import { PostType } from 'types'
+import { PostType, RemoveImage } from 'types'
 
 import styles from './CreatePost.module.scss'
 
@@ -64,12 +64,12 @@ const CreatePost = () => {
     [],
   )
 
-  const onClickRemoveImage = () => {
-    if (inputImageRef.current) {
+  const onClickRemoveImage = async () => {
+    if (inputImageRef.current && post.imageUrl) {
       inputImageRef.current.value = ''
       inputImageRef.current.files = null
     }
-
+    await api.delete<RemoveImage>(path.image, { data: { imageUrl: post.imageUrl } })
     setPost((prev) => ({ ...prev, imageUrl: '' }))
   }
 
@@ -80,11 +80,12 @@ const CreatePost = () => {
     const formData = new FormData()
     try {
       const file = event.target.files[0]
+
       formData.append('image', file)
 
-      const { data } = await api.post(path.uploads, formData)
+      const { data } = await api.post(path.image, formData)
 
-      setPost((prev) => ({ ...prev, imageUrl: `${process.env.REACT_APP_BASE_URL}${data.url}` }))
+      setPost((prev) => ({ ...prev, imageUrl: data.url }))
     } catch (error) {
       console.log('~ ~ file: CreatePost.tsx ~ line 61 ~ handleChangeFile ~ error', error)
     }

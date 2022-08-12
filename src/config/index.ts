@@ -6,7 +6,7 @@ const path = {
   signUp: '/auth/sign-up',
   signIn: '/auth/sign-in',
   user: '/user',
-  uploads: '/uploads',
+  image: '/image',
 }
 const isDev = process.env.NODE_ENV === 'development'
 
